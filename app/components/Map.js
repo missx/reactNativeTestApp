@@ -7,6 +7,10 @@ export default class Map extends Component {
 
     state = {
         lastPosition: 'unknown',
+        coordinates: {
+            latitude: -34.901410,
+            longitude: -56.174996
+        },
     };
 
     watchID = null;
@@ -14,16 +18,26 @@ export default class Map extends Component {
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
         (position) => {
-            var lastPosition = JSON.stringify(position);
-            console.log(lastPosition);
-            this.setState({lastPosition});
+            
+            this.setState({
+                coordinates: {
+                    latitude: parseFloat(position.coords.latitude),
+                    longitude: parseFloat(position.coords.longitude)
+                }
+            });
         },
         (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
         );
         this.watchID = navigator.geolocation.watchPosition((position) => {
-            var lastPosition = JSON.stringify(position);
-            this.setState({lastPosition});
+            
+            this.setState({
+                coordinates: {
+                    latitude: parseFloat(position.coords.latitude),
+                    longitude: parseFloat(position.coords.longitude)
+                }
+            });
+            
         });
     }
 
@@ -36,13 +50,17 @@ export default class Map extends Component {
             <View  style={styles.container}>
                 <MapView
                     style={styles.map}
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                    region={{
+                        latitude: this.state.coordinates.latitude,
+                        longitude: this.state.coordinates.longitude,
+                        latitudeDelta: 0.0800,
+                        longitudeDelta: 0.0400,
                     }}
-                />
+                >
+                    <MapView.Marker
+                        coordinate={this.state.coordinates}
+                    />
+                </MapView>
             </View>
         )
     }
@@ -51,11 +69,13 @@ export default class Map extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    ...StyleSheet.absoluteFillObject,
+    height: 700,
+    width: 400,
+    justifyContent: 'flex-end', 
+    alignItems: 'center',
   },
   map: {
-    flex: 1
+    ...StyleSheet.absoluteFillObject,
   },
 });

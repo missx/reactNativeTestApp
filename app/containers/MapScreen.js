@@ -8,7 +8,7 @@ export default class MapScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Map</Text>
+                
                 <Map />
             </View>
         )
@@ -17,7 +17,6 @@ export default class MapScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'flex-end',
+    ...StyleSheet.absoluteFillObject
   }
 });

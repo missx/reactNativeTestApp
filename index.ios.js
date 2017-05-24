@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 
-import { MapScreen } from './app/containers/MapScreen';
+import MapScreen from './app/containers/MapScreen';
 
 export default class reactNativeTestMap extends Component {
   render() {

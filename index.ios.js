@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View
+  StyleSheet
 } from 'react-native';
 
-import MapScreen from './app/containers/MapScreen';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import AppReducer from './app/reducers/index';
+
+import AppWithNavigationState from './app/navigators/AppNavigator';
+
+
 
 export default class reactNativeTestMap extends Component {
+  store = createStore(AppReducer);
+  
   render() {
     return (
-      <View style={styles.container}>
-        <MapScreen />
-      </View>
+      <Provider store={this.store} >
+        <AppWithNavigationState />
+      </Provider>
     );
   }
 }
